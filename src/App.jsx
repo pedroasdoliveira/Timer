@@ -1,22 +1,38 @@
-import { Box, Flex, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  CircularProgressLabel,
+  Flex,
+  Text,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useState } from "react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import {
+  MoonIcon,
+  SunIcon,
+  TriangleUpIcon,
+  TriangleDownIcon,
+} from "@chakra-ui/icons";
+import Timer from "./components/Timer";
 
 function App() {
   const { toggleColorMode } = useColorMode();
-  const [ toggleColor, setToggleColor ] = useState(false);
+  const [toggleColor, setToggleColor] = useState(false);
 
   const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(12, 23, 87, 0.94) 20.22%, rgba(26, 37, 91, 0.49) 100%)"
+    "linear-gradient(111.58deg, #3b49da 31.73%, rgba(42, 52, 163, 0.49) 72.68%)",
+    "linear-gradient(97.85deg, rgba(12, 23, 87, 0.94) 40.22%, rgba(62, 72, 125, 0.49) 68.56%)"
   );
-
-  const [count, setCount] = useState(0);
+  const cardBorder = useColorModeValue("#1d1d31", "#8e6dd1");
 
   const handleChangeColor = () => {
     toggleColorMode();
     setToggleColor(!toggleColor);
-  }
+  };
+
+  
 
   return (
     <Flex
@@ -27,6 +43,7 @@ function App() {
       w={"100vw"}
       minH={"100vh"}
       bg={background}
+      cursor={"default"}
     >
       <Box
         as="i"
@@ -40,16 +57,29 @@ function App() {
       </Box>
 
       <Flex
-        justifyContent={"center"}
-        w={"65%"}
+        w={"80%"}
         h={"450px"}
-        border={"1px solid #000"}
+        border={`1px solid ${cardBorder}`}
+        borderRadius={15}
         p={4}
       >
         <Flex
-          direction={"row"}
+          direction={"column"}
+          justifyContent={"center"}
+          w={"100%"}
+          h={"100%"}
         >
           
+          <Timer />
+
+          <Flex
+            direction={"row"}
+            alignContent={"center"}
+            justifyContent={"center"}
+            marginTop={16}
+          >
+            <Button variant="outline">Começar</Button>
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

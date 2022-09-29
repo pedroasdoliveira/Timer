@@ -1,0 +1,146 @@
+import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+import {
+  CircularProgress,
+  CircularProgressLabel,
+  Flex,
+  Text,
+} from "@chakra-ui/react";
+import React, { useState } from "react";
+
+const Timer = () => {
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [hours, setHours] = useState(0);
+
+  return (
+    <Flex direction={"row"} justifyContent={"center"} gap={"8rem"}>
+      <Flex direction={"column"} alignItems={"center"}>
+        <TriangleUpIcon
+          marginBottom={4}
+          w={"30px"}
+          h={"30px"}
+          cursor={"pointer"}
+          onClick={() => {
+            setHours(hours + 1);
+            if (hours === 24) {
+              setHours(0);
+            }
+          }}
+        />
+
+        <CircularProgress
+          color="gray.500"
+          value={hours}
+          max={24}
+          size="100px"
+          thickness="4px"
+        >
+          <CircularProgressLabel>{hours <= 9 ? `0${hours}` : `${hours}`}</CircularProgressLabel>
+        </CircularProgress>
+        <Text textAlign={"center"} fontSize={"2xl"}>
+          Horas
+        </Text>
+        <TriangleDownIcon
+          marginTop={4}
+          w={"30px"}
+          h={"30px"}
+          cursor={"pointer"}
+          onClick={() => {
+            setHours(hours - 1);
+            if (hours === 0) {
+              setHours(24);
+            }
+          }}
+        />
+      </Flex>
+
+      {/* Minutos */}
+      <Flex direction={"column"} alignItems={"center"}>
+        <TriangleUpIcon
+          marginBottom={4}
+          w={"30px"}
+          h={"30px"}
+          cursor={"pointer"}
+          onClick={() => {
+            setMinutes(minutes + 1);
+            if (minutes === 59) {
+              setMinutes(0);
+            }
+          }}
+        />
+
+        <CircularProgress
+          color="gray.500"
+          value={minutes}
+          max={59}
+          size="100px"
+          thickness="4px"
+        >
+          <CircularProgressLabel>
+            {minutes <= 9 ? `0${minutes}` : `${minutes}`}
+          </CircularProgressLabel>
+        </CircularProgress>
+        <Text textAlign={"center"} fontSize={"2xl"}>
+          Minutos
+        </Text>
+        <TriangleDownIcon
+          marginTop={4}
+          w={"30px"}
+          h={"30px"}
+          cursor={"pointer"}
+          onClick={() => {
+            setMinutes(minutes - 1);
+            if (minutes === 0) {
+              setMinutes(59);
+            }
+          }}
+        />
+      </Flex>
+
+      {/* Segundos */}
+      <Flex direction={"column"} alignItems={"center"}>
+        <TriangleUpIcon
+          marginBottom={4}
+          w={"30px"}
+          h={"30px"}
+          cursor={"pointer"}
+          onClick={() => {
+            setSeconds(seconds + 1);
+            if (seconds === 59) {
+              setSeconds(0);
+            }
+          }}
+        />
+
+        <CircularProgress
+          color="gray.500"
+          size="100px"
+          thickness="4px"
+          value={seconds}
+          max={59}
+        >
+          <CircularProgressLabel>
+            {seconds <= 9 ? `0${seconds}` : `${seconds}`}
+          </CircularProgressLabel>
+        </CircularProgress>
+        <Text textAlign={"center"} fontSize={"2xl"}>
+          Segundos
+        </Text>
+        <TriangleDownIcon
+          marginTop={4}
+          w={"30px"}
+          h={"30px"}
+          cursor={"pointer"}
+          onClick={() => {
+            setSeconds(seconds - 1);
+            if (seconds === 0) {
+              setSeconds(59);
+            }
+          }}
+        />
+      </Flex>
+    </Flex>
+  );
+};
+
+export default Timer;

@@ -7,7 +7,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import ModalTimer from "./components/Modal";
+import AlertTimer from "./components/Alert";
 import ResetButton from "./components/ResetButton";
 import StartButton from "./components/StartButton";
 import StopButton from "./components/StopButton";
@@ -189,7 +189,7 @@ function App() {
         </Flex>
       </Flex>
 
-      {modalTimer ? <ModalTimer openModal={modalTimer} closeModal={handleCloseModal} /> : ""}
+      {modalTimer ? <AlertTimer openModal={modalTimer} closeModal={handleCloseModal} /> : ""}
     </Flex>
   );
 }

@@ -10,7 +10,7 @@ import { useHours } from "../context/hoursContext";
 import { useMinutes } from "../context/minutesContext";
 import { useSeconds } from "../context/secondsContext";
 
-const Timer = () => {
+const Timer = ({ chooseTime }) => {
   const { seconds, setSeconds } = useSeconds();
   const { minutes, setMinutes } = useMinutes();
   const { hours, setHours } = useHours();
@@ -24,9 +24,11 @@ const Timer = () => {
           h={"30px"}
           cursor={"pointer"}
           onClick={() => {
-            setHours(hours + 1);
-            if (hours === 24) {
-              setHours(0);
+            if (chooseTime) {
+              setHours(hours + 1);
+              if (hours === 24) {
+                setHours(0);
+              }
             }
           }}
         />
@@ -38,20 +40,25 @@ const Timer = () => {
           size="100px"
           thickness="4px"
         >
-          <CircularProgressLabel>{hours <= 9 ? `0${hours}` : `${hours}`}</CircularProgressLabel>
+          <CircularProgressLabel>
+            {hours <= 9 ? `0${hours}` : `${hours}`}
+          </CircularProgressLabel>
         </CircularProgress>
         <Text textAlign={"center"} fontSize={"2xl"}>
           Horas
         </Text>
+
         <TriangleDownIcon
           marginTop={4}
           w={"30px"}
           h={"30px"}
           cursor={"pointer"}
           onClick={() => {
-            setHours(hours - 1);
-            if (hours === 0) {
-              setHours(24);
+            if (chooseTime) {
+              setHours(hours - 1);
+              if (hours === 0) {
+                setHours(24);
+              }
             }
           }}
         />
@@ -65,9 +72,11 @@ const Timer = () => {
           h={"30px"}
           cursor={"pointer"}
           onClick={() => {
-            setMinutes(minutes + 1);
-            if (minutes === 59) {
-              setMinutes(0);
+            if (chooseTime) {
+              setMinutes(minutes + 1);
+              if (minutes === 59) {
+                setMinutes(0);
+              }
             }
           }}
         />
@@ -86,15 +95,18 @@ const Timer = () => {
         <Text textAlign={"center"} fontSize={"2xl"}>
           Minutos
         </Text>
+
         <TriangleDownIcon
           marginTop={4}
           w={"30px"}
           h={"30px"}
           cursor={"pointer"}
           onClick={() => {
-            setMinutes(minutes - 1);
-            if (minutes === 0) {
-              setMinutes(59);
+            if (chooseTime) {
+              setMinutes(minutes - 1);
+              if (minutes === 0) {
+                setMinutes(59);
+              }
             }
           }}
         />
@@ -108,9 +120,11 @@ const Timer = () => {
           h={"30px"}
           cursor={"pointer"}
           onClick={() => {
-            setSeconds(seconds + 1);
-            if (seconds === 59) {
-              setSeconds(0);
+            if (chooseTime) {
+              setSeconds(seconds + 1);
+              if (seconds === 59) {
+                setSeconds(0);
+              }
             }
           }}
         />
@@ -129,15 +143,18 @@ const Timer = () => {
         <Text textAlign={"center"} fontSize={"2xl"}>
           Segundos
         </Text>
+
         <TriangleDownIcon
           marginTop={4}
           w={"30px"}
           h={"30px"}
           cursor={"pointer"}
           onClick={() => {
-            setSeconds(seconds - 1);
-            if (seconds === 0) {
-              setSeconds(59);
+            if (chooseTime) {
+              setSeconds(seconds - 1);
+              if (seconds === 0) {
+                setSeconds(59);
+              }
             }
           }}
         />

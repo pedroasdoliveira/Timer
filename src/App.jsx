@@ -6,7 +6,11 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import ModalTimer from "./components/Modal";
+import ResetButton from "./components/ResetButton";
+import StartButton from "./components/StartButton";
+import StopButton from "./components/StopButton";
 import Timer from "./components/Timer";
 import { useHours } from "./context/hoursContext";
 import { useMinutes } from "./context/minutesContext";
@@ -32,11 +36,85 @@ function App() {
   const { minutes, setMinutes } = useMinutes();
   const { hours, setHours } = useHours();
 
+  const [chooseTime, setChooseTime] = useState(true);
   const [startTimer, setStartTimer] = useState(false);
+  const [stopTimer, setStopTimer] = useState(null);
+  const [modalTimer, setModalTimer] = useState(false);
 
-  const handleStart = () => {
-    
+  const handleCloseModal = () => {
+    setModalTimer(false);
+  }
+
+  const handleStartTimer = () => {
+    if (seconds > 0 || minutes > 0 || hours > 0) {
+      setChooseTime(false);
+      setStartTimer(true);
+      setStopTimer(false);
+    } else {
+      alert("Coloque algum valor no cronometro!");
+    }
   };
+
+  const handleStopTimer = () => {
+    setStopTimer(!stopTimer);
+  };
+
+  const handleResetTimer = () => {
+    setSeconds(0);
+    setMinutes(0);
+    setHours(0);
+    setChooseTime(true);
+    setStopTimer(null);
+    setStartTimer(false);
+  };
+
+  const hoursTime = () => {
+    if (hours > 0) {
+      setSeconds(59);
+      setMinutes(59);
+      setHours(hours - 1);
+    }
+  };
+
+  const minutesTime = () => {
+    if (minutes > 0) {
+      setSeconds(59);
+      setMinutes(minutes - 1);
+
+      if (minutes === 0) {
+        hoursTime();
+      }
+    } else if (minutes === 0 && hours > 0) {
+      hoursTime();
+    }
+  };
+
+  const timerWatch = () => {
+    if (seconds > 0) {
+      setSeconds(seconds - 1);
+
+      if (seconds === 0) {
+        minutesTime();
+      }
+    } else if ((seconds === 0 && minutes > 0) || hours > 0) {
+      minutesTime();
+    } else {
+      setChooseTime(true);
+      setStartTimer(false);
+      setSeconds(0);
+      setMinutes(0);
+      setModalTimer(true);
+    }
+  };
+
+  useEffect(() => {
+    if (startTimer === true && stopTimer === false) {
+      const time = setInterval(() => {
+        timerWatch();
+      }, 1000);
+      return () => clearInterval(time);
+    }
+  });
 
   return (
     <Flex
@@ -73,7 +151,7 @@ function App() {
           w={"100%"}
           h={"100%"}
         >
-          <Timer />
+          <Timer chooseTime={chooseTime} />
 
           {!startTimer ? (
             <Flex
@@ -86,7 +164,7 @@ function App() {
                 variant="outline"
                 size="lg"
                 colorScheme={color}
-                onClick={handleStart}
+                onClick={handleStartTimer}
               >
                 Começar
               </Button>
@@ -96,15 +174,22 @@ function App() {
               direction={"row"}
               alignContent={"center"}
               justifyContent={"center"}
+              gap={12}
               marginTop={16}
             >
-              <Button variant="outline" size="lg" colorScheme={color}>
-                Pausar
-              </Button>
+              {!stopTimer ? (
+                <StopButton pauseTimer={handleStopTimer} />
+              ) : (
+                <StartButton startTimer={handleStopTimer} />
+              )}
+
+              <ResetButton resetTimer={handleResetTimer} />
             </Flex>
           )}
         </Flex>
       </Flex>
+
+      {modalTimer ? <ModalTimer openModal={modalTimer} closeModal={handleCloseModal} /> : ""}
     </Flex>
   );
 }

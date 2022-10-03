@@ -6,11 +6,14 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useHours } from "../context/hoursContext";
+import { useMinutes } from "../context/minutesContext";
+import { useSeconds } from "../context/secondsContext";
 
 const Timer = () => {
-  const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [hours, setHours] = useState(0);
+  const { seconds, setSeconds } = useSeconds();
+  const { minutes, setMinutes } = useMinutes();
+  const { hours, setHours } = useHours();
 
   return (
     <Flex direction={"row"} justifyContent={"center"} gap={"8rem"}>

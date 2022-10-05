@@ -1,10 +1,9 @@
 import {
-    AlertDialog, AlertDialogCloseButton,
-    AlertDialogContent,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogOverlay,
-    Button
+  AlertDialog, AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Button
 } from "@chakra-ui/react";
 import { useRef } from "react";
 
@@ -20,13 +19,11 @@ const AlertTimer = ({openModal, closeModal}) => {
       isOpen={openModal}
     >
       <AlertDialogOverlay />
-
       <AlertDialogContent>
         <AlertDialogHeader textAlign={"center"}>
           Acabou o tempo!
         </AlertDialogHeader>
-        <AlertDialogCloseButton onClick={closeModal} />
-        <AlertDialogFooter>
+        <AlertDialogFooter display={"flex"} justifyContent={"center"}>
           <Button ref={cancelRef} onClick={closeModal}>
             Fechar
           </Button>

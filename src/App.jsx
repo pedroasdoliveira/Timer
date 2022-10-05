@@ -6,6 +6,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { Howl } from "howler";
 import { useEffect, useState } from "react";
 import AlertTimer from "./components/Alert";
 import ResetButton from "./components/ResetButton";
@@ -15,6 +16,7 @@ import Timer from "./components/Timer";
 import { useHours } from "./context/hoursContext";
 import { useMinutes } from "./context/minutesContext";
 import { useSeconds } from "./context/secondsContext";
+import StartDustAlarm from './sound/start-dust-alarm.mp3'
 
 function App() {
   const { toggleColorMode } = useColorMode();
@@ -41,9 +43,23 @@ function App() {
   const [stopTimer, setStopTimer] = useState(null);
   const [modalTimer, setModalTimer] = useState(false);
 
+  const sound = new Howl({
+    src: StartDustAlarm,
+    loop: true,
+    onstop: true,
+    volume: 0.7,
+  })
+
   const handleCloseModal = () => {
     setModalTimer(false);
+    sound.stop();
   }
+
+  useEffect(() => {
+    if (modalTimer === true) {
+      sound.play();
+    }
+  }, [modalTimer])
 
   const handleStartTimer = () => {
     if (seconds > 0 || minutes > 0 || hours > 0) {

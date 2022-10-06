@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { Howl } from "howler";
 import { useEffect, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 import AlertTimer from "./components/Alert";
 import ResetButton from "./components/ResetButton";
 import StartButton from "./components/StartButton";
@@ -16,18 +17,20 @@ import Timer from "./components/Timer";
 import { useHours } from "./context/hoursContext";
 import { useMinutes } from "./context/minutesContext";
 import { useSeconds } from "./context/secondsContext";
-import StartDustAlarm from './sound/start-dust-alarm.mp3'
+import StartDustAlarm from "./sound/start-dust-alarm.mp3";
 
 function App() {
   const { toggleColorMode } = useColorMode();
   const [toggleColor, setToggleColor] = useState(false);
 
   const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3b49da 31.73%, rgba(42, 52, 163, 0.49) 72.68%)",
-    "linear-gradient(97.85deg, rgba(12, 23, 87, 0.94) 40.22%, rgba(62, 72, 125, 0.49) 68.56%)"
+    "linear-gradient(111.58deg, #3b49da 31.73%, #2a34a37c 72.68%)",
+    "linear-gradient(97.85deg, #23338aef 40.22%, #33407c7c 68.56%)"
   );
-  const cardBorder = useColorModeValue("#1d1d31", "#8e6dd1");
-  const color = useColorModeValue("whiteAlpha", "facebook");
+  const bgColor = useColorModeValue("#23328a59", "#3b48dac6");
+  const colorButton = useColorModeValue("#081b34", "#8b9fee");
+  const buttonHover = useColorModeValue("#9884f1", "#1c192d");
+  const buttonColor = useColorModeValue("#f4f5f9", "#11121b");
 
   const handleChangeColor = () => {
     toggleColorMode();
@@ -47,19 +50,19 @@ function App() {
     src: StartDustAlarm,
     loop: true,
     onstop: true,
-    volume: 0.7,
-  })
+    volume: 1,
+  });
 
   const handleCloseModal = () => {
     setModalTimer(false);
     sound.stop();
-  }
+  };
 
   useEffect(() => {
     if (modalTimer === true) {
       sound.play();
     }
-  }, [modalTimer])
+  }, [modalTimer]);
 
   const handleStartTimer = () => {
     if (seconds > 0 || minutes > 0 || hours > 0) {
@@ -67,7 +70,16 @@ function App() {
       setStartTimer(true);
       setStopTimer(false);
     } else {
-      alert("Coloque algum valor no cronometro!");
+      if (toggleColor === false) {
+        toast.error("Coloque algum valor no Timer!");
+      } else {
+        toast.error("Coloque algum valor no Timer!", {
+          style: {
+            background: "#333",
+            color: "#fff",
+          },
+        });
+      }
     }
   };
 
@@ -154,13 +166,7 @@ function App() {
         {toggleColor ? <SunIcon /> : <MoonIcon />}
       </Box>
 
-      <Flex
-        w={"80%"}
-        h={"450px"}
-        border={`1px solid ${cardBorder}`}
-        borderRadius={15}
-        p={4}
-      >
+      <Flex w={"80%"} h={"450px"} p={4}>
         <Flex
           direction={"column"}
           justifyContent={"center"}
@@ -179,7 +185,10 @@ function App() {
               <Button
                 variant="outline"
                 size="lg"
-                colorScheme={color}
+                bg={bgColor}
+                borderColor={"transparent"}
+                color={colorButton}
+                _hover={{ borderColor: buttonHover, color: buttonColor }}
                 onClick={handleStartTimer}
               >
                 Começar
@@ -204,8 +213,13 @@ function App() {
           )}
         </Flex>
       </Flex>
+      <Toaster position="bottom-right" reverseOrder={false} />
 
-      {modalTimer ? <AlertTimer openModal={modalTimer} closeModal={handleCloseModal} /> : ""}
+      {modalTimer ? (
+        <AlertTimer openModal={modalTimer} closeModal={handleCloseModal} />
+      ) : (
+        ""
+      )}
     </Flex>
   );
 }

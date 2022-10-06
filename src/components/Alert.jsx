@@ -3,12 +3,18 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  Button
+  Button,
+  useColorModeValue
 } from "@chakra-ui/react";
 import { useRef } from "react";
 
 const AlertTimer = ({openModal, closeModal}) => {
   const cancelRef = useRef();
+
+  const background = useColorModeValue(
+    "#3b49da90",
+    "#33407c30"
+  )
 
   return (
     <AlertDialog
@@ -18,13 +24,15 @@ const AlertTimer = ({openModal, closeModal}) => {
       onClose={closeModal}
       isOpen={openModal}
     >
-      <AlertDialogOverlay />
-      <AlertDialogContent>
+      <AlertDialogOverlay opacity={"60%"} />
+      <AlertDialogContent
+        bg={background}
+      >
         <AlertDialogHeader textAlign={"center"}>
           Acabou o tempo!
         </AlertDialogHeader>
         <AlertDialogFooter display={"flex"} justifyContent={"center"}>
-          <Button ref={cancelRef} onClick={closeModal}>
+          <Button bg={"transparent"} ref={cancelRef} onClick={closeModal}>
             Fechar
           </Button>
         </AlertDialogFooter>

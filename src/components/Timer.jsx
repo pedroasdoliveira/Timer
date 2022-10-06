@@ -4,6 +4,7 @@ import {
   CircularProgressLabel,
   Flex,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useHours } from "../context/hoursContext";
@@ -15,8 +16,10 @@ const Timer = ({ chooseTime }) => {
   const { minutes, setMinutes } = useMinutes();
   const { hours, setHours } = useHours();
 
+  const circleColor = useColorModeValue("#A0AEC0", "#1e3966")
+
   return (
-    <Flex direction={"row"} justifyContent={"center"} gap={"8rem"}>
+    <Flex direction={"row"} justifyContent={"center"} gap={"6rem"}>
       <Flex direction={"column"} alignItems={"center"}>
         <TriangleUpIcon
           marginBottom={4}
@@ -34,7 +37,7 @@ const Timer = ({ chooseTime }) => {
         />
 
         <CircularProgress
-          color="gray.500"
+          color={circleColor}
           value={hours}
           max={24}
           size="100px"
@@ -82,7 +85,7 @@ const Timer = ({ chooseTime }) => {
         />
 
         <CircularProgress
-          color="gray.500"
+          color={circleColor}
           value={minutes}
           max={59}
           size="100px"
@@ -130,7 +133,7 @@ const Timer = ({ chooseTime }) => {
         />
 
         <CircularProgress
-          color="gray.500"
+          color={circleColor}
           size="100px"
           thickness="4px"
           value={seconds}
